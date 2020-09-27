@@ -373,8 +373,9 @@ def main():
 
     # env
     envs = make_parallel_env(args)
-    eval_env = make_eval_env(args,100)
-    
+    eval_num  = 100
+    eval_env = make_eval_env(args,eval_num)
+
     num_agents = args.num_agents
     num_boxes = args.num_boxes
     all_action_space = []
@@ -904,7 +905,7 @@ def main():
             share_obs = np.array(share_obs) 
             rollouts = RolloutStorage(num_agents,
                         episode_length, 
-                        starts_length,
+                        eval_num,
                         all_obs_space[0], 
                         all_action_space[0],
                         args.hidden_size,
@@ -945,7 +946,7 @@ def main():
                 
                 # rearrange action          
                 actions_env = []
-                for n_rollout_thread in range(args.n_rollout_threads):
+                for n_rollout_thread in range(eval_num):
                     action_movement = []
                     action_pull = []
                     action_glueall = []
